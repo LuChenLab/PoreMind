@@ -257,4 +257,4 @@ PoreMind is distributed under the [PolyForm Noncommercial License 1.0.0](./LICEN
 
 For questions, bug reports, or feature requests, [open an issue](https://github.com/LuChenLab/PoreMind/issues).
 
-Defu Liu#, Jing-wen Lin²*, Lu Chen⁎, et al. (2023). *PoreMind: a unified computational framework for single-molecule nanopore signal analysis.* [GitHub repository](https://github.com/LuChenLab/PoreMind).
+Defu Liu#, Jing-wen Lin⁎, Lu Chen⁎, et al. (2023). *PoreMind: a unified computational framework for single-molecule nanopore signal analysis.* [GitHub repository](https://github.com/LuChenLab/PoreMind).
