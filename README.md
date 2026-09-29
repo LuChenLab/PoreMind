@@ -214,9 +214,9 @@ The UI is organized into nine steps: **Import**, **Preprocess**, **Pre-Events** 
 
 In Step 8, load a saved model to classify new samples that were not used to train it.
 
-Watch a demonstration of the PoreMind local Web UI on YouTube:
+Watch a demonstration of the PoreMind local Web UI on [YouTube](https://youtu.be/kSs1sbFrdPc):
 
-[![PoreMind Local Web Demo](https://img.youtube.com/vi/kSs1sbFrdPc/maxresdefault.jpg)](https://youtu.be/kSs1sbFrdPc)
+![PoreMind Local Web Demo](https://img.youtube.com/vi/kSs1sbFrdPc/maxresdefault.jpg)
 
 ## Notes
 

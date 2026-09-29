@@ -214,9 +214,9 @@ UI 按九个步骤组织：**Import**（导入）、**Preprocess**（预处理�
 
 在第 8 步加载已保存的模型，可对训练时未使用的新样本进行分类。
 
-YouTube 上有 PoreMind 本地 Web UI 的演示视频：
+[YouTube](https://youtu.be/kSs1sbFrdPc) 上有 PoreMind 本地 Web UI 的演示视频：
 
-[![PoreMind Local Web Demo](https://img.youtube.com/vi/kSs1sbFrdPc/maxresdefault.jpg)](https://youtu.be/kSs1sbFrdPc)
+![PoreMind Local Web Demo](https://img.youtube.com/vi/kSs1sbFrdPc/maxresdefault.jpg)
 
 ## 使用说明
 
