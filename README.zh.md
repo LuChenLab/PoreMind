@@ -97,9 +97,8 @@ new_analysis, predictions = analysis.classify_new_samples(
 
 **MAGJAM** 是一种多阶段时序建模网络，直接从离子电流事件波形中学习具有判别性的动态表征。在本项目的 benchmark 任务中，MAGJAM 在所评估模型中取得了综合表现最佳的结果。模型提供 d8 和 d4 两种深度版本：默认版本为 d8（`model_name="MAGJAM"`），d4 版本为 `model_name="MAGJAM_d4"`。
 
-![Overview of the MAGJAM framework](./dlmagjam.png)
-
-**Overview of the MAGJAM framework**
+<p align="center"><img src="./dlmagjam.png" alt="Overview of the MAGJAM framework" width="75%"></p>
+<p align="center"><em>Overview of the MAGJAM framework</em></p>
 
 内置 residual CNN：
 
@@ -216,7 +215,7 @@ UI 按九个步骤组织：**Import**（导入）、**Preprocess**（预处理�
 
 [YouTube](https://youtu.be/kSs1sbFrdPc) 上有 PoreMind 本地 Web UI 的演示视频：
 
-![PoreMind Local Web Demo](https://img.youtube.com/vi/kSs1sbFrdPc/maxresdefault.jpg)
+![PoreMind Local Web UI demonstration](./poremind_ui_demo.png)
 
 ## 使用说明
 

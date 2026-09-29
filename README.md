@@ -97,9 +97,8 @@ new_analysis, predictions = analysis.classify_new_samples(
 
 **MAGJAM** is a multi-stage temporal-modelling network that learns discriminative dynamic representations directly from ionic-current event waveforms. Among the models evaluated in our benchmark tasks, MAGJAM achieved the strongest overall performance. Two depth variants are available: d8 by default (`model_name="MAGJAM"`) and d4 (`model_name="MAGJAM_d4"`).
 
-![Overview of the MAGJAM framework](./dlmagjam.png)
-
-**Overview of the MAGJAM framework**
+<p align="center"><img src="./dlmagjam.png" alt="Overview of the MAGJAM framework" width="75%"></p>
+<p align="center"><em>Overview of the MAGJAM framework</em></p>
 
 Built-in residual CNN:
 
@@ -216,7 +215,7 @@ In Step 8, load a saved model to classify new samples that were not used to trai
 
 Watch a demonstration of the PoreMind local Web UI on [YouTube](https://youtu.be/kSs1sbFrdPc):
 
-![PoreMind Local Web Demo](https://img.youtube.com/vi/kSs1sbFrdPc/maxresdefault.jpg)
+![PoreMind Local Web UI demonstration](./poremind_ui_demo.png)
 
 ## Notes
 
