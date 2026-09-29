@@ -195,8 +195,6 @@ print(ml_explanation["ranking"])
 ml_explanation["ax"].figure  # display the permutation-importance plot in a notebook
 ```
 
-<p align="center"><img src="./ml_feature_importance.png" alt="Permutation feature importance for Naive Bayes" width="65%"></p>
-
 For waveform-based DL models, Integrated Gradients assigns attribution scores to input positions relative to a baseline, helping identify waveform regions that contribute to a model output. These attributions describe the model's response, not causal effects. Install `captum` and `tqdm` first. Use the same `model_name` as in training; the example below uses sample ID `A8`:
 
 ```python
@@ -212,8 +210,6 @@ analysis.pl.attribute(
     model_name="residual-CNN",
 )
 ```
-
-<p align="center"><img src="./dl_integrated_gradients_a8.png" alt="Integrated Gradients attribution for sample A8, event 0" width="65%"></p>
 
 ## Notebook Example
 

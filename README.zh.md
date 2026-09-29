@@ -195,8 +195,6 @@ print(ml_explanation["ranking"])
 ml_explanation["ax"].figure  # 在 Notebook 中显示置换特征重要性图
 ```
 
-<p align="center"><img src="./ml_feature_importance.png" alt="Naive Bayes 模型的置换特征重要性图" width="65%"></p>
-
 对于直接输入事件波形的 DL 模型，Integrated Gradients（积分梯度）会相对于基线为波形各位置计算归因分数，用于分析哪些波形区域影响模型输出。该归因反映模型对输入的响应，不代表因果效应。运行前需安装 `captum` 和 `tqdm`。`model_name` 应与训练时一致；下面的示例使用 sample ID `A8`：
 
 ```python
@@ -212,8 +210,6 @@ analysis.pl.attribute(
     model_name="residual-CNN",
 )
 ```
-
-<p align="center"><img src="./dl_integrated_gradients_a8.png" alt="A8 样本事件 0 的 Integrated Gradients 归因图" width="65%"></p>
 
 ## Notebook 示例
 
