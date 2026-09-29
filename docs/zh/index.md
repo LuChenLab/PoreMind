@@ -9,7 +9,7 @@ PoreMind 是用于单分子纳米孔信号分析的 Python 框架，可将 ABF �
 ## 从这里开始
 
 - 查看[安装说明](installation.md)，安装 PoreMind 及所需的可选依赖。
-- 阅读 [Python API 快速开始](quickstart.md)，或查看[当前分析 Notebook](../_generated/quickstart.ipynb)。
+- 查看 [Quick Start (API)](../_generated/quickstart.ipynb)。
 - 了解[分析流程](workflow.md)、[支持的模型](models.md)和[函数参考](api.md)。
 - 使用[本地 Web UI](local-ui.md)进行交互式分析。
 

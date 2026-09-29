@@ -9,7 +9,7 @@ PoreMind is a Python framework for single-molecule nanopore signal analysis. It 
 ## Start here
 
 - [Install PoreMind](installation.md) and its optional readers or model dependencies.
-- Follow the [API quick start](quickstart.md) or open the [current analysis notebook](_generated/quickstart.ipynb).
+- Follow [Quick Start (API)](_generated/quickstart.ipynb).
 - Review the [analysis workflow](workflow.md), [supported models](models.md), or [function reference](functions/README.md).
 - Launch the [local Web UI](local-ui.md) for interactive analysis.
 

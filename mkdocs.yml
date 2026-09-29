@@ -46,8 +46,7 @@ nav:
       - Overview: index.md
       - Getting started:
           - Installation: installation.md
-          - Quick Start (API): quickstart.md
-          - Notebook walkthrough: _generated/quickstart.ipynb
+          - Quick Start (API): _generated/quickstart.ipynb
           - Analysis workflow: workflow.md
       - Models:
           - Supported models: models.md
@@ -109,7 +108,7 @@ nav:
       - 项目简介: zh/index.md
       - 入门:
           - 安装: zh/installation.md
-          - API 快速开始: zh/quickstart.md
+          - Quick Start (API): _generated/quickstart.ipynb
           - 分析流程: zh/workflow.md
       - 模型:
           - 支持的模型: zh/models.md
