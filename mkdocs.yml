@@ -1,0 +1,122 @@
+site_name: PoreMind
+site_description: Documentation for PoreMind, a Python framework for single-molecule nanopore signal analysis.
+site_url: https://LuChenLab.github.io/PoreMind/
+repo_url: https://github.com/LuChenLab/PoreMind
+edit_uri: edit/main/docs/
+docs_dir: docs
+site_dir: site
+exclude_docs: requirements-docs.txt
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep orange
+
+plugins:
+  - search
+  - mkdocs-jupyter:
+      execute: false
+      include_source: true
+      ignore_h1_titles: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - English:
+      - Overview: index.md
+      - Getting started:
+          - Installation: installation.md
+          - Quick Start (API): quickstart.md
+          - Notebook walkthrough: _generated/quickstart.ipynb
+          - Analysis workflow: workflow.md
+      - Models:
+          - Supported models: models.md
+          - Model interpretability: interpretability.md
+      - Local Web UI: local-ui.md
+      - Method framework: nanopore_single_molecule_framework.md
+      - API reference:
+          - Overview: functions/README.md
+          - analyze_abf_to_event_df: functions/analyze_abf_to_event_df.md
+          - box_significance: functions/box_significance.md
+          - build_best_model: functions/build_best_model.md
+          - build_DL_model: functions/build_DL_model.md
+          - butterworth_filtfilt: functions/butterworth_filtfilt.md
+          - classify_new_samples: functions/classify_new_samples.md
+          - classify_new_samples_DL: functions/classify_new_samples_DL.md
+          - create_analysis_object: functions/create_analysis_object.md
+          - current: functions/current.md
+          - denoise: functions/denoise.md
+          - detect_events: functions/detect_events.md
+          - detect_events_cusum: functions/detect_events_cusum.md
+          - detect_events_hmm: functions/detect_events_hmm.md
+          - detect_events_pelt: functions/detect_events_pelt.md
+          - detect_events_simple: functions/detect_events_simple.md
+          - detect_events_threshold: functions/detect_events_threshold.md
+          - do_pca: functions/do_pca.md
+          - do_tsne: functions/do_tsne.md
+          - do_umap: functions/do_umap.md
+          - estimate_baseline: functions/estimate_baseline.md
+          - event_current: functions/event_current.md
+          - event_current_label: functions/event_current_label.md
+          - event_current_simple: functions/event_current_simple.md
+          - events_to_dataframe: functions/events_to_dataframe.md
+          - extract_features: functions/extract_features.md
+          - filter_events: functions/filter_events.md
+          - load: functions/load.md
+          - load_model_package: functions/load_model_package.md
+          - median_filter: functions/median_filter.md
+          - model_cm: functions/model_cm.md
+          - model_metric_bar: functions/model_metric_bar.md
+          - moving_average: functions/moving_average.md
+          - plot_2d: functions/plot_2d.md
+          - plot_3d: functions/plot_3d.md
+          - plot_fold_loss: functions/plot_fold_loss.md
+          - predict_events: functions/predict_events.md
+          - preprocess_signal: functions/preprocess_signal.md
+          - preview_signal: functions/preview_signal.md
+          - read_abf: functions/read_abf.md
+          - read_abf_all: functions/read_abf_all.md
+          - read_csv: functions/read_csv.md
+          - remove_slow_drift: functions/remove_slow_drift.md
+          - rolling_quantile: functions/rolling_quantile.md
+          - save_model_package: functions/save_model_package.md
+          - select_feature_columns: functions/select_feature_columns.md
+          - stacked_bar: functions/stacked_bar.md
+          - train_event_classifier: functions/train_event_classifier.md
+          - visualize_signal: functions/visualize_signal.md
+      - License & citation: license.md
+  - 中文:
+      - 项目简介: zh/index.md
+      - 入门:
+          - 安装: zh/installation.md
+          - API 快速开始: zh/quickstart.md
+          - 分析流程: zh/workflow.md
+      - 模型:
+          - 支持的模型: zh/models.md
+          - 模型可解释性: zh/interpretability.md
+      - 本地 Web UI: zh/local-ui.md
+      - API 参考: zh/api.md
+      - 许可与引用: zh/license.md
+
+watch:
+  - notebooks/step_by_step_analysis.ipynb

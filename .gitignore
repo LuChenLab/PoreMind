@@ -6,6 +6,9 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .pytest_tmp/
+/site/
+/docs/_generated/
+/.cache/
 
 # Local analysis outputs and application logs
 runs/
