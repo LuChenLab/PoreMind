@@ -1,7 +1,5 @@
 # Supported models
 
-[简体中文](zh/models.md)
-
 PoreMind provides classifiers for event-feature tables and waveform-based deep-learning models.
 
 ## Classical machine learning

@@ -1,7 +1,5 @@
 # Analysis workflow
 
-[简体中文](zh/workflow.md)
-
 The API and local UI use the same event-centered workflow. The detector-tuning step is a preview on a selected local interval; full event detection runs separately over the loaded traces.
 
 | Stage | Purpose | Main outputs |

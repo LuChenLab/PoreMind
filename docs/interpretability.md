@@ -1,7 +1,5 @@
 # Model interpretability
 
-[简体中文](zh/interpretability.md)
-
 PoreMind provides permutation feature importance for classical ML models and Integrated Gradients attributions for waveform-based DL models. These methods describe model behavior; they do not establish causal effects.
 
 ## Classical ML: permutation feature importance

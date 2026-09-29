@@ -1,7 +1,5 @@
 # Installation
 
-[简体中文](zh/installation.md)
-
 ## Requirements
 
 PoreMind requires Python 3.10 or later. Download the ZIP archive from the [PoreMind GitHub repository](https://github.com/LuChenLab/PoreMind), extract it, and open a terminal in the extracted project root—the directory containing `pyproject.toml` and `src/`.

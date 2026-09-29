@@ -1,7 +1,5 @@
 # License and citation
 
-[简体中文](zh/license.md)
-
 ## License
 
 PoreMind is distributed under the [PolyForm Noncommercial License 1.0.0](https://github.com/LuChenLab/PoreMind/blob/main/LICENSE). It permits noncommercial use; commercial use requires separate authorization from the copyright holder. Read the license text for the complete terms.

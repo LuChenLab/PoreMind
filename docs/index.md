@@ -2,8 +2,6 @@
 
 # PoreMind documentation
 
-[简体中文](zh/index.md)
-
 PoreMind is a Python framework for single-molecule nanopore signal analysis. It converts ABF and CSV current recordings into standardized event-level data and provides signal preprocessing, event detection, feature analysis, machine learning, waveform deep learning, prediction, and visualization through a shared workflow.
 
 ## Start here

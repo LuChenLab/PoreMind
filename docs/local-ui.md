@@ -1,7 +1,5 @@
 # Local Web UI
 
-[简体中文](zh/local-ui.md)
-
 Start the Gradio application from the installed project environment:
 
 ```bash
