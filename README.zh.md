@@ -95,10 +95,30 @@ new_analysis, predictions = analysis.classify_new_samples(
 
 ### 支持的 DL 模型
 
-**MAGJAM** 是一种多阶段时序建模网络，直接从离子电流事件波形中学习具有判别性的动态表征。在本项目的 benchmark 任务中，MAGJAM 在所评估模型中取得了综合表现最佳的结果。模型提供 d8 和 d4 两种深度版本：默认版本为 d8（`model_name="MAGJAM"`），d4 版本为 `model_name="MAGJAM_d4"`。
+**MAGJAM** 是一种多阶段时序建模网络，直接从离子电流事件波形中学习具有判别性的动态表征。在本项目的 benchmark 任务中，MAGJAM 在所评估模型中取得了综合表现最佳的结果。
 
-<p align="center"><img src="./dlmagjam.png" alt="Overview of the MAGJAM framework" width="75%"></p>
-<p align="center"><em>Overview of the MAGJAM framework</em></p>
+<p align="center"><img src="./dlmagjam.png" alt="Overview of the MAGJAM framework" width="85%"></p>
+<p align="center">Overview of the MAGJAM framework</p>
+
+MAGJAM 提供两种深度版本：默认使用 d8（`model_name="MAGJAM"`），使用 `model_name="MAGJAM_d4"` 可选择 d4。
+
+```python
+# MAGJAM d8（默认）
+magjam_d8_pkg = analysis.build_DL_model(
+    model_name="MAGJAM",
+    device="cuda",
+    interp_length=500,
+    cv=5,
+)
+
+# MAGJAM d4
+magjam_d4_pkg = analysis.build_DL_model(
+    model_name="MAGJAM_d4",
+    device="cuda",
+    interp_length=500,
+    cv=5,
+)
+```
 
 内置 residual CNN：
 
@@ -175,7 +195,9 @@ print(ml_explanation["ranking"])
 ml_explanation["ax"].figure  # 在 Notebook 中显示置换特征重要性图
 ```
 
-对于直接输入事件波形的 DL 模型，Integrated Gradients（积分梯度）会相对于基线为波形各位置计算归因分数，用于分析哪些波形区域影响模型输出。该归因反映模型对输入的响应，不代表因果效应。运行前需安装 `captum` 和 `tqdm`。`model_name` 应与训练时一致，`std_A_01` 替换为数据中实际存在的 sample ID：
+![Naive Bayes 模型的置换特征重要性图](./ml_feature_importance.png)
+
+对于直接输入事件波形的 DL 模型，Integrated Gradients（积分梯度）会相对于基线为波形各位置计算归因分数，用于分析哪些波形区域影响模型输出。该归因反映模型对输入的响应，不代表因果效应。运行前需安装 `captum` 和 `tqdm`。`model_name` 应与训练时一致；下面的示例使用 sample ID `A8`：
 
 ```python
 analysis.explain_dl(
@@ -185,11 +207,13 @@ analysis.explain_dl(
     n_steps=50,
 )
 analysis.pl.attribute(
-    sample_id="std_A_01",
+    sample_id="A8",
     event_index=1,
     model_name="residual-CNN",
 )
 ```
+
+![A8 样本事件 0 的 Integrated Gradients 归因图](./dl_integrated_gradients_a8.png)
 
 ## Notebook 示例
 

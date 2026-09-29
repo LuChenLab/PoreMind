@@ -95,10 +95,30 @@ new_analysis, predictions = analysis.classify_new_samples(
 
 ### Supported DL models
 
-**MAGJAM** is a multi-stage temporal-modelling network that learns discriminative dynamic representations directly from ionic-current event waveforms. Among the models evaluated in our benchmark tasks, MAGJAM achieved the strongest overall performance. Two depth variants are available: d8 by default (`model_name="MAGJAM"`) and d4 (`model_name="MAGJAM_d4"`).
+**MAGJAM** is a multi-stage temporal-modelling network that learns discriminative dynamic representations directly from ionic-current event waveforms. Among the models evaluated in our benchmark tasks, MAGJAM achieved the strongest overall performance.
 
-<p align="center"><img src="./dlmagjam.png" alt="Overview of the MAGJAM framework" width="75%"></p>
-<p align="center"><em>Overview of the MAGJAM framework</em></p>
+<p align="center"><img src="./dlmagjam.png" alt="Overview of the MAGJAM framework" width="85%"></p>
+<p align="center">Overview of the MAGJAM framework</p>
+
+Two depth variants are available: d8 is the default (`model_name="MAGJAM"`), and d4 is selected with `model_name="MAGJAM_d4"`.
+
+```python
+# MAGJAM d8 (default)
+magjam_d8_pkg = analysis.build_DL_model(
+    model_name="MAGJAM",
+    device="cuda",
+    interp_length=500,
+    cv=5,
+)
+
+# MAGJAM d4
+magjam_d4_pkg = analysis.build_DL_model(
+    model_name="MAGJAM_d4",
+    device="cuda",
+    interp_length=500,
+    cv=5,
+)
+```
 
 Built-in residual CNN:
 
@@ -175,7 +195,9 @@ print(ml_explanation["ranking"])
 ml_explanation["ax"].figure  # display the permutation-importance plot in a notebook
 ```
 
-For waveform-based DL models, Integrated Gradients assigns attribution scores to input positions relative to a baseline, helping identify waveform regions that contribute to a model output. These attributions describe the model's response, not causal effects. Install `captum` and `tqdm` first. Use the same `model_name` as in training, and replace `std_A_01` with a sample ID present in the data:
+![Permutation feature importance for Naive Bayes](./ml_feature_importance.png)
+
+For waveform-based DL models, Integrated Gradients assigns attribution scores to input positions relative to a baseline, helping identify waveform regions that contribute to a model output. These attributions describe the model's response, not causal effects. Install `captum` and `tqdm` first. Use the same `model_name` as in training; the example below uses sample ID `A8`:
 
 ```python
 analysis.explain_dl(
@@ -185,11 +207,13 @@ analysis.explain_dl(
     n_steps=50,
 )
 analysis.pl.attribute(
-    sample_id="std_A_01",
+    sample_id="A8",
     event_index=1,
     model_name="residual-CNN",
 )
 ```
+
+![Integrated Gradients attribution for sample A8, event 0](./dl_integrated_gradients_a8.png)
 
 ## Notebook Example
 
