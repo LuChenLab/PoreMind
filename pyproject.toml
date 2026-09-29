@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "poremind"
+version = "0.1.0"
+description = "API-first single-molecule nanopore event analysis"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "scipy",
+  "matplotlib",
+  "ruptures",
+  "hmmlearn",
+  "gradio",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+[project.scripts]
+poremind-ui = "ui.app:main"

@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python packaging and test artifacts
+*.egg-info/
+.pytest_cache/
+.pytest_tmp/
+
+# Local analysis outputs and application logs
+runs/
+ui_exports/
+*.log

@@ -1,0 +1,43 @@
+{
+  "title": "PoreMind Agent params.lock.json schema",
+  "type": "object",
+  "required": ["input", "preprocess", "event_detection"],
+  "properties": {
+    "input": {
+      "type": "object",
+      "required": ["sample_paths", "reader"],
+      "properties": {
+        "sample_paths": {"type": "object"},
+        "sample_to_group": {"type": ["object", "null"]},
+        "reader": {"type": "string", "enum": ["abf", "csv"]},
+        "reader_kwargs": {"type": ["object", "null"]}
+      }
+    },
+    "preprocess": {
+      "type": "object",
+      "properties": {
+        "method": {"type": "string"},
+        "params": {"type": "object"}
+      }
+    },
+    "event_detection": {
+      "type": "object",
+      "required": ["detect_method", "detect_params", "baseline_method", "baseline_params", "detect_direction", "merge_event", "exclude_current"],
+      "properties": {
+        "detect_method": {"type": "string", "enum": ["threshold", "zscore_threshold", "cusum", "pelt", "hmm"]},
+        "detect_params": {"type": "object"},
+        "baseline_method": {"type": "string"},
+        "baseline_params": {"type": "object"},
+        "detect_direction": {"type": "string", "enum": ["down", "up"]},
+        "merge_event": {"type": "boolean"},
+        "merge_event_params": {"type": ["object", "null"]},
+        "exclude_current": {"type": "boolean"},
+        "exclude_current_params": {"type": ["object", "null"]}
+      }
+    },
+    "feature_extraction": {"type": "object"},
+    "filtering": {"type": ["object", "null"]},
+    "modeling": {"type": ["object", "null"]},
+    "encoder": {"type": ["object", "null"]}
+  }
+}
