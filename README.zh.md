@@ -1,4 +1,4 @@
-# PoreMind<img src="poremind_logo.png" align="right" height="200" />
+# PoreMind<img src="poremind_logo.png" align="right" height="100" />
 
 [English](./README.md) | [中文](./README.zh.md)
 
