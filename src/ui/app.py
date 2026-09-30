@@ -874,15 +874,11 @@ def create_app():
         raise ImportError("Gradio is required for UI. Install with `pip install gradio`.") from exc
 
     ctl = AnalysisController()
-    background_path = Path(__file__).with_name("assets") / "poremind_science_background.png"
+    assets_path = Path(__file__).with_name("assets")
+    background_path = assets_path / "poremind_science_background.png"
     if not background_path.is_file():  # pragma: no cover - installation safeguard
         raise FileNotFoundError(f"Missing UI background asset: {background_path}")
-    logo_path = (
-        Path(__file__).resolve().parents[3]
-        / "manuscript"
-        / "Figure_ai"
-        / "资源 1高清.png"
-    )
+    logo_path = assets_path / "poremind_logo.png"
     if not logo_path.is_file():  # pragma: no cover - installation safeguard
         raise FileNotFoundError(f"Missing PoreMind logo image: {logo_path}")
     gr.set_static_paths([background_path, logo_path])

@@ -21,6 +21,9 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+ui = ["assets/*.png"]
+
 
 [project.scripts]
 poremind-ui = "ui.app:main"

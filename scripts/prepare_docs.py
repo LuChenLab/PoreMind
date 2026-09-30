@@ -9,7 +9,7 @@ GENERATED = ROOT / "docs" / "_generated"
 
 FILES = {
     ROOT / "notebooks" / "step_by_step_analysis.ipynb": GENERATED / "quickstart.ipynb",
-    ROOT / "poremind_logo.png": GENERATED / "poremind_logo.png",
+    ROOT / "src" / "ui" / "assets" / "poremind_logo.png": GENERATED / "poremind_logo.png",
     ROOT / "dlmagjam.png": GENERATED / "dlmagjam.png",
     ROOT / "poremind_ui_demo.png": GENERATED / "poremind_ui_demo.png",
 }
