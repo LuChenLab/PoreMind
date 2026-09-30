@@ -22,6 +22,6 @@ The interface has nine steps:
 8. **Predict** — load a saved model and classify new samples.
 9. **Export** — save selected results and analysis settings.
 
-<p align="center"><img src="_generated/poremind_ui_demo.png" alt="PoreMind local Web UI" width="90%"></p>
+<p align="center"><img src="../_generated/poremind_ui_demo.png" alt="PoreMind local Web UI" width="90%"></p>
 
 See the local Web UI [video demonstration on YouTube](https://youtu.be/kSs1sbFrdPc).

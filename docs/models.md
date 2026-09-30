@@ -36,7 +36,7 @@ magjam_d4 = analysis.build_DL_model(
 
 `interp_length` defaults to 500. `interp_method="interp"` linearly resamples each event waveform; `interp_method="padding"` pads short waveforms with zeros and center-crops long waveforms. MAGJAM's d8 architecture is the default; d4 uses the shallower variant.
 
-<p align="center"><img src="_generated/dlmagjam.png" alt="Overview of the MAGJAM framework" width="85%"></p>
+<p align="center"><img src="../_generated/dlmagjam.png" alt="Overview of the MAGJAM framework" width="85%"></p>
 <p align="center">Overview of the MAGJAM framework</p>
 
 For a custom DL extractor, pass an instantiated `torch.nn.Module` as `model`; a string naming a class is not a module instance. See the [DL model API reference](functions/build_DL_model.md).
