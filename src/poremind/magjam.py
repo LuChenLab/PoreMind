@@ -87,6 +87,38 @@ class MagGAP(nn.Module):
         return self.ln(magnitude + gap)
 
 
+class GatedAttnPool(nn.Module):
+    """Single-head gated attention pooling over temporal features."""
+
+    def __init__(self, dim: int, hidden: int = 64):
+        super().__init__()
+        self.proj = nn.Linear(dim, hidden)
+        self.u = nn.Linear(hidden, 1, bias=False)
+        self.gate_proj = nn.Linear(dim, dim)
+
+    def forward(self, x: torch.Tensor, raw_x: torch.Tensor | None = None) -> torch.Tensor:
+        del raw_x
+        h = x.transpose(1, 2)
+        scores = self.u(torch.tanh(self.proj(h))).squeeze(-1)
+        attention = torch.softmax(scores, dim=1)
+        pooled = (h * attention.unsqueeze(-1)).sum(dim=1)
+        return pooled * torch.sigmoid(self.gate_proj(pooled))
+
+
+class DualReadout(nn.Module):
+    """Concatenate gated-attention and magnitude-aware readouts."""
+
+    def __init__(self, dim: int):
+        super().__init__()
+        self.gated = GatedAttnPool(dim)
+        self.mag = MagGAP(dim, dim)
+
+    def forward(self, x: torch.Tensor, raw_x: torch.Tensor | None = None) -> torch.Tensor:
+        gated_features = self.gated(x, raw_x=raw_x)
+        magnitude_features = self.mag(x, raw_x=raw_x)
+        return torch.cat([gated_features, magnitude_features], dim=-1)
+
+
 class FastSSMBlock(nn.Module):
     """Lightweight Mamba-style gated depthwise temporal block."""
 
@@ -224,8 +256,8 @@ class MSSHybridBlock(nn.Module):
         return self.ffn(x)
 
 
-class MSSJambaHybrid(nn.Module):
-    """MSS + Jamba-style hybrid classifier used by MAGJAM."""
+class MSSJambaDualRO(nn.Module):
+    """MAGJAM: MSS-Jamba backbone with dual readout at every stage."""
 
     def __init__(
         self,
@@ -265,8 +297,8 @@ class MSSJambaHybrid(nn.Module):
             ]
         )
         self.norms = nn.ModuleList([nn.LayerNorm(dim) for _ in range(depth)])
-        self.pools = nn.ModuleList([MagGAP(dim, dim) for _ in range(depth)])
-        self.feat_dim = depth * dim
+        self.pools = nn.ModuleList([DualReadout(dim) for _ in range(depth)])
+        self.feat_dim = depth * 2 * dim
         self.head = nn.Sequential(
             nn.LayerNorm(self.feat_dim),
             nn.Linear(self.feat_dim, 256),
@@ -288,6 +320,10 @@ class MSSJambaHybrid(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.head(self.forward_features(x))
+
+
+# Retain the historical public class name used by PoreMind and user code.
+MSSJambaHybrid = MSSJambaDualRO
 
 
 class MAGJAMExtractor(nn.Module):
@@ -345,13 +381,23 @@ def mss_jamba_hybrid_d8(n_classes: int = 15, T: int = 1000) -> MSSJambaHybrid:
     return MSSJambaHybrid(n_classes=n_classes, T=T, depth=8, dim=128, kernel=7, mult=2)
 
 
+def mss_jamba_hybrid_d8_gated_mag(n_classes: int = 15, T: int = 1000) -> MSSJambaDualRO:
+    """Canonical MAGJAM model: dual readout with eight temporal stages."""
+    return MSSJambaDualRO(n_classes=n_classes, T=T, depth=8, dim=128)
+
+
+def mss_jamba_hybrid_d8_gated_mag_d4(n_classes: int = 15, T: int = 1000) -> MSSJambaDualRO:
+    """Four-stage MAGJAM variant using the same dual-readout architecture."""
+    return MSSJambaDualRO(n_classes=n_classes, T=T, depth=4, dim=128)
+
+
 def mss_jamba_hybrid_large(n_classes: int = 15, T: int = 1000) -> MSSJambaHybrid:
     return MSSJambaHybrid(n_classes=n_classes, T=T, depth=6, dim=192, kernel=7, mult=2)
 
 
 MAGJAM_MODELS: dict[str, Callable[..., MSSJambaHybrid]] = {
-    "MAGJAM": mss_jamba_hybrid_d8,
-    "MAGJAM_d4": mss_jamba_hybrid_d4,
+    "MAGJAM": mss_jamba_hybrid_d8_gated_mag,
+    "MAGJAM_d4": mss_jamba_hybrid_d8_gated_mag_d4,
 }
 
 
@@ -359,6 +405,8 @@ __all__ = [
     "MagnitudePool1d",
     "ConcatPool1d",
     "MagGAP",
+    "GatedAttnPool",
+    "DualReadout",
     "FastSSMBlock",
     "Mamba1DFast",
     "DropPath",
@@ -366,11 +414,14 @@ __all__ = [
     "SwiGLUFFN",
     "MSSHybridBlock",
     "MSSJambaHybrid",
+    "MSSJambaDualRO",
     "MAGJAMExtractor",
     "MAGJAMFullModel",
     "mss_jamba_hybrid",
     "mss_jamba_hybrid_d4",
     "mss_jamba_hybrid_d8",
+    "mss_jamba_hybrid_d8_gated_mag",
+    "mss_jamba_hybrid_d8_gated_mag_d4",
     "mss_jamba_hybrid_large",
     "MAGJAM_MODELS",
 ]

@@ -13,7 +13,7 @@ from poremind.workflow import MultiSampleAnalysis  # noqa: E402
 
 @pytest.mark.parametrize(
     ("name", "expected_dim"),
-    [("MAGJAM", 8 * 128), ("MAGJAM_d4", 4 * 128)],
+    [("MAGJAM", 8 * 2 * 128), ("MAGJAM_d4", 4 * 2 * 128)],
 )
 def test_magjam_registry_and_feature_shapes(name: str, expected_dim: int):
     model = MAGJAM_MODELS[name](n_classes=3, T=32)
@@ -25,6 +25,11 @@ def test_magjam_registry_and_feature_shapes(name: str, expected_dim: int):
     assert tuple(features.shape) == (2, expected_dim)
     assert tuple(logits.shape) == (2, 3)
     assert model.feat_dim == expected_dim
+
+    x_for_grad = torch.randn(1, 1, 32, requires_grad=True)
+    model(x_for_grad)[:, 0].sum().backward()
+    assert x_for_grad.grad is not None
+    assert torch.isfinite(x_for_grad.grad).all()
 
 
 def _input_analysis() -> MultiSampleAnalysis:
@@ -107,5 +112,5 @@ def test_magjam_build_dl_model_uses_waveform_only():
     assert package["feature_cols"] is None
     assert package["interp_length"] == 16
     assert package["interp_method"] == "padding"
-    assert package["model"]["head"][0].normalized_shape == (4 * 128,)
+    assert package["model"]["head"][0].normalized_shape == (4 * 2 * 128,)
     assert any(c.startswith("pred_label_MAGJAM_d4") for c in analysis.filtered_df.columns)
