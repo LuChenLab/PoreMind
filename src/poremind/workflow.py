@@ -1569,6 +1569,12 @@ class MultiSampleAnalysis:
         else:
             head = nn.Linear(conv_dim + feat_dim, n_classes)
         full_model = nn.ModuleDict({"extractor": extractor, "head": head}).to(dev)
+        # Keep the caller's supplied initialization (including buffers such as
+        # BatchNorm statistics) so every CV fold and the final fit start cleanly.
+        initial_model_state = {
+            key: value.detach().cpu().clone()
+            for key, value in full_model.state_dict().items()
+        }
 
         def _forward(x_seq_t, x_feat_t):
             z = full_model["extractor"](x_seq_t)
@@ -1580,10 +1586,10 @@ class MultiSampleAnalysis:
         splitter = StratifiedKFold(n_splits=cv, shuffle=True, random_state=42)
         folds: list[dict[str, Any]] = []
         fold_losses: list[dict[str, list[float]]] = []
-        best_state = None
-        best_fold_score = -np.inf
+        best_epoch_counts: list[int] = []
 
         for fold_id, (tr_idx, te_idx) in enumerate(splitter.split(X_seq, y_idx), start=1):
+            full_model.load_state_dict(initial_model_state)
             tr_sub, val_sub = train_test_split(tr_idx, test_size=0.1, random_state=42, stratify=y_idx[tr_idx] if len(np.unique(y_idx[tr_idx])) > 1 else None)
 
             optimizer = torch.optim.Adam(full_model.parameters(), lr=learning_rate)
@@ -1602,6 +1608,7 @@ class MultiSampleAnalysis:
 
             best_val = float("inf")
             patience = 0
+            best_epoch_count = 0
             best_epoch_state = {k: v.detach().cpu().clone() for k, v in full_model.state_dict().items()}
             train_loss_hist: list[float] = []
             val_loss_hist: list[float] = []
@@ -1613,7 +1620,7 @@ class MultiSampleAnalysis:
             except Exception:
                 epoch_iter = range(epoch)
 
-            for _ in epoch_iter:
+            for epoch_idx in epoch_iter:
                 full_model.train()
                 tr_losses = []
                 for batch in tr_loader:
@@ -1647,6 +1654,7 @@ class MultiSampleAnalysis:
                 if val_loss < best_val:
                     best_val = val_loss
                     patience = 0
+                    best_epoch_count = epoch_idx + 1
                     best_epoch_state = {k: v.detach().cpu().clone() for k, v in full_model.state_dict().items()}
                 else:
                     patience += 1
@@ -1684,13 +1692,46 @@ class MultiSampleAnalysis:
             }
             folds.append(fold)
             fold_losses.append({"train_loss": train_loss_hist, "val_loss": val_loss_hist})
-            if test_acc > best_fold_score:
-                best_fold_score = test_acc
-                best_state = {k: v.detach().cpu().clone() for k, v in full_model.state_dict().items()}
+            best_epoch_counts.append(best_epoch_count)
 
-        if best_state is None:
-            raise RuntimeError("DL training failed")
-        full_model.load_state_dict(best_state)
+        # Refit a fresh model on every labeled event for downstream prediction.
+        # The CV test folds contribute only to the reported evaluation metrics;
+        # the refit duration is estimated from the inner validation best epochs.
+        usable_best_epochs = [count for count in best_epoch_counts if count > 0]
+        final_epoch_count = (
+            int(np.median(usable_best_epochs))
+            if usable_best_epochs
+            else int(epoch)
+        )
+        full_model.load_state_dict(initial_model_state)
+        final_optimizer = torch.optim.Adam(full_model.parameters(), lr=learning_rate)
+        if X_feat is None:
+            final_ds = TensorDataset(
+                torch.from_numpy(X_seq).unsqueeze(1),
+                torch.from_numpy(y_idx),
+            )
+        else:
+            final_ds = TensorDataset(
+                torch.from_numpy(X_seq).unsqueeze(1),
+                torch.from_numpy(X_feat),
+                torch.from_numpy(y_idx),
+            )
+        final_loader = DataLoader(final_ds, batch_size=batch_size, shuffle=True)
+
+        full_model.train()
+        for _ in range(final_epoch_count):
+            for batch in final_loader:
+                final_optimizer.zero_grad()
+                if X_feat is None:
+                    x_seq_b, y_b = batch
+                    logits = _forward(x_seq_b.to(dev), None)
+                else:
+                    x_seq_b, x_feat_b, y_b = batch
+                    logits = _forward(x_seq_b.to(dev), x_feat_b.to(dev))
+                loss = criterion(logits, y_b.to(dev))
+                loss.backward()
+                final_optimizer.step()
+
         full_model.eval()
 
         # full-data prediction and write back to filtered_df
