@@ -14,7 +14,24 @@ PoreMind 是一个用于单分子纳米孔信号分析的 Python 框架，可将
 
 ## 安装
 
-项目要求 Python 3.10 或更高版本。从 GitHub 下载源码安装：
+项目要求 Python 3.10 或更高版本。通过 PyPI 安装：
+
+```bash
+pip install poremind
+```
+
+按需安装可选功能依赖：
+
+```bash
+pip install "poremind[abf]"       # 读取 ABF 文件
+pip install "poremind[dl]"        # 深度学习训练与预测
+pip install "poremind[explain]"   # DL 波形归因分析
+pip install "poremind[umap]"      # UMAP 降维
+pip install "poremind[xgboost]"   # XGBoost 支持
+pip install "poremind[all]"      # 安装全部可选功能
+```
+
+从 GitHub 下载源码进行开发安装：
 
 1. 打开 PoreMind 的 GitHub 仓库，点击 **Code → Download ZIP** 下载压缩包。
 2. 解压 ZIP 文件，进入解压后的项目文件夹。
@@ -23,17 +40,7 @@ PoreMind 是一个用于单分子纳米孔信号分析的 Python 框架，可将
 ```bash
 conda create -n poremind python=3.10 -y
 conda activate poremind
-pip install -e .
-```
-
-安装相关依赖：
-
-```bash
-pip install pyabf       # 读取 ABF 文件
-pip install torch       # 深度学习训练与预测
-pip install captum tqdm # 查看哪些波形片段影响 DL 预测
-pip install umap-learn  # UMAP 降维
-pip install xgboost     # XGBoost 支持
+pip install -e ".[all]"
 ```
 
 ## 文档

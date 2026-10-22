@@ -14,7 +14,24 @@ PoreMind is a Python framework for analyzing single-molecule nanopore signals. I
 
 ## Installation
 
-The package requires Python 3.10 or later. To install from GitHub:
+The package requires Python 3.10 or later. Install the published package from PyPI:
+
+```bash
+pip install poremind
+```
+
+Install optional dependencies for the features you use:
+
+```bash
+pip install "poremind[abf]"       # ABF input
+pip install "poremind[dl]"        # deep-learning training and prediction
+pip install "poremind[explain]"   # DL waveform attribution
+pip install "poremind[umap]"      # UMAP analysis
+pip install "poremind[xgboost]"   # XGBoost support
+pip install "poremind[all]"      # all optional features
+```
+
+To install the development version from GitHub:
 
 1. Open the PoreMind GitHub repository and select **Code → Download ZIP**.
 2. Extract the ZIP archive and open the extracted project folder.
@@ -23,17 +40,7 @@ The package requires Python 3.10 or later. To install from GitHub:
 ```bash
 conda create -n poremind python=3.10 -y
 conda activate poremind
-pip install -e .
-```
-
-Install the required dependencies:
-
-```bash
-pip install pyabf       # ABF input
-pip install torch       # deep-learning training and prediction
-pip install captum tqdm # identify waveform regions that affect DL predictions
-pip install umap-learn  # UMAP analysis
-pip install xgboost     # XGBoost support
+pip install -e ".[all]"
 ```
 
 ## Documentation

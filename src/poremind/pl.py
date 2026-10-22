@@ -625,7 +625,7 @@ class PlotAccessor:
 
         grouped_data = [plot_df.loc[plot_df[group_col] == g, value_col].to_numpy(dtype=float) for g in order]
         fig, ax = plt.subplots(figsize=(width, height))
-        bp = ax.boxplot(grouped_data, labels=order, patch_artist=True, showfliers=False)
+        bp = ax.boxplot(grouped_data, tick_labels=order, patch_artist=True, showfliers=False)
         for patch, c in zip(bp["boxes"], colors):
             patch.set_facecolor(c)
             patch.set_alpha(0.8)
